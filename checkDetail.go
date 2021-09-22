@@ -268,7 +268,7 @@ func (cd *CheckDetail) Validate() error {
 		}
 	}
 	// Conditional
-	if cd.MICRValidIndicatorField() != "" {
+	if strings.TrimSpace(cd.MICRValidIndicatorField()) != "" {
 		if err := cd.isMICRValidIndicator(cd.MICRValidIndicator); err != nil {
 			return &FieldError{FieldName: "MICRValidIndicator", Value: cd.MICRValidIndicatorField(), Msg: err.Error()}
 		}
