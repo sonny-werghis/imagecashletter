@@ -22,7 +22,7 @@ type CheckDetail struct {
 	// ID is a client defined string used as a reference to this record.
 	ID string `json:"id"`
 	// RecordType defines the type of record.
-	recordType string
+	RecordType string
 	// AuxiliaryOnUs identifies a code used on commercial checks at the discretion of the payor bank.
 	AuxiliaryOnUs string `json:"auxiliaryOnUs"`
 	// ExternalProcessingCode identifies a code used for special purposes as authorized by the Accredited
@@ -164,7 +164,7 @@ func (cd *CheckDetail) setRecordType() {
 	if cd == nil {
 		return
 	}
-	cd.recordType = "25"
+	cd.RecordType = "25"
 }
 
 // Parse takes the input record string and parses the CheckDetail values
@@ -223,7 +223,7 @@ func (cd *CheckDetail) UnmarshalJSON(data []byte) error {
 func (cd *CheckDetail) String() string {
 	var buf strings.Builder
 	buf.Grow(80)
-	buf.WriteString(cd.recordType)
+	buf.WriteString(cd.RecordType)
 	buf.WriteString(cd.AuxiliaryOnUsField())
 	buf.WriteString(cd.ExternalProcessingCodeField())
 	buf.WriteString(cd.PayorBankRoutingNumberField())
@@ -247,9 +247,9 @@ func (cd *CheckDetail) Validate() error {
 	if err := cd.fieldInclusion(); err != nil {
 		return err
 	}
-	if cd.recordType != "25" {
+	if cd.RecordType != "25" {
 		msg := fmt.Sprintf(msgRecordType, 25)
-		return &FieldError{FieldName: "recordType", Value: cd.recordType, Msg: msg}
+		return &FieldError{FieldName: "RecordType", Value: cd.RecordType, Msg: msg}
 	}
 	if cd.DocumentationTypeIndicator != "" {
 		// Z is valid for CashLetter DocumentationTypeIndicator only
@@ -295,9 +295,9 @@ func (cd *CheckDetail) Validate() error {
 // fieldInclusion validate mandatory fields are not default values. If fields are
 // invalid the Electronic Exchange will be returned.
 func (cd *CheckDetail) fieldInclusion() error {
-	if cd.recordType == "" {
-		return &FieldError{FieldName: "recordType",
-			Value: cd.recordType,
+	if cd.RecordType == "" {
+		return &FieldError{FieldName: "RecordType",
+			Value: cd.RecordType,
 			Msg:   msgFieldInclusion + ", did you use CheckDetail()?"}
 	}
 	if cd.PayorBankRoutingNumber == "" {
